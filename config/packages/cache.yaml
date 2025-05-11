@@ -1,0 +1,8 @@
+framework:
+    cache:
+        prefix_seed: mineroot/weather_app
+        default_redis_provider: '%env(CACHE_POOL_URL)%'
+        pools:
+            app.redis_cache:
+                adapter: cache.adapter.redis
+                provider: '%env(CACHE_POOL_URL)%'

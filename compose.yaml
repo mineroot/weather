@@ -1,0 +1,35 @@
+services:
+    php:
+        depends_on:
+            - redis
+        image: ${IMAGES_PREFIX:-}app-php
+        restart: unless-stopped
+        environment:
+            SERVER_NAME: ${SERVER_NAME:-localhost}, php:80
+        volumes:
+            - caddy_data:/data
+            - caddy_config:/config
+        ports:
+            -   target: 80
+                published: ${HTTP_PORT:-80}
+                protocol: tcp
+            -   target: 443
+                published: ${HTTPS_PORT:-443}
+                protocol: tcp
+            -   target: 443
+                published: ${HTTP3_PORT:-443}
+                protocol: udp
+
+    redis:
+        image: redis:8.0-alpine
+        restart: unless-stopped
+        healthcheck:
+            test: [ "CMD", "redis-cli", "-a", "ping" ]
+            start_period: 10s
+            interval: 30s
+            timeout: 10s
+            retries: 5
+
+volumes:
+    caddy_data:
+    caddy_config:

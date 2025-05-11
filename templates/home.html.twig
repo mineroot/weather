@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if weather is not null %}
+        <h2>Current weather at {{ weather.location.name }}, {{ weather.location.country }}</h2>
+        <div>
+            <p>Temperature: <i>{{ weather.currentForecast.tempC }} °C</i></p>
+            <p>Condition: <i>{{ weather.currentForecast.condition.text }}</i>
+                <img src="{{ weather.currentForecast.condition.icon }}"
+                     class="condition-icon" alt="{{ weather.currentForecast.condition.text }}">
+            </p>
+            <p>Humidity: <i>{{ weather.currentForecast.humidity }}%</i></p>
+            <p>Wind speed: <i>{{ weather.currentForecast.windKph }} km/h</i></p>
+            <p>Last update: <i>{{ weather.currentForecast.lastUpdated }}</i></p>
+        </div>
+    {% endif %}
+    {% if error is not null %}
+        <p>Error: {{ error }}</p>
+    {% endif %}
+
+    <h2>Weather at other locations:</h2>
+    <div>
+        <a href="{{ path('home', {query: 'kyiv'}) }}">Kyiv</a>
+        <span>|</span>
+        <a href="{{ path('home', {query: 'london'}) }}">London</a>
+        <span>|</span>
+        <a href="{{ path('home', {query: 'rio de janeiro'}) }}">Rio de Janeiro</a>
+        <span>|</span>
+        <a href="{{ path('home', {query: 'la'}) }}">Los Angeles</a>
+        <span>|</span>
+        <a href="{{ path('home', {query: 'tokyo'}) }}">Tokyo</a>
+        <span>|</span>
+        <a href="{{ path('home', {query: 'abu dhabi'}) }}">Abu Dhabi</a>
+    </div>
+{% endblock %}
